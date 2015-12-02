@@ -26,3 +26,12 @@ or, if you don't have luacontrollers:
 Instructions (without digilines): 
 
 Grab the one you want from the creative inventory and place it. Survival mode is not yet supported without digilines.
+
+
+Colors:
+
+off, black, blue, brown, cyan, darkblue, darkcyan, darkgray, darkgreen, darkmagenta, darkred, gray, green, magenta, red, white, yellow
+
+Adding more colors:
+
+Provide a texture named "rgblightstone_color.png" (where "color" is the color you want to add) and call rgblightstone.add(color)

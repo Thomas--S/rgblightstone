@@ -1,0 +1,28 @@
+RGB Lightstones for Minetest
+
+License:
+---Code: WTFPL
+---Textures: WTFPL (made by VanessaE)
+
+Depends: mesecons_lightstone, digilines?
+
+Instructions (with digilines):
+
+* Grab one from the creative inventory, or craft one:
+	nothing		green lightstone	nothing
+	red lightstone	luacontroller		blue lightstone
+	nothing		digiline		nothing
+
+or, if you don't have luacontrollers:
+
+	nothing		green lightstone	nothing
+	red lightstone	mesecon			blue lightstone
+	nothing		mesecon			nothing
+
+* Place the thing
+* Right-click and set a channel
+* Send a digilines message to it on that channel with the color you want (choices listed below)
+
+Instructions (without digilines): 
+
+Grab the one you want from the creative inventory and place it. Survival mode is not yet supported without digilines.

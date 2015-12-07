@@ -35,3 +35,22 @@ off, black, blue, brown, cyan, darkblue, darkcyan, darkgray, darkgreen, darkmage
 Adding more colors:
 
 Provide a texture named "rgblightstone_color.png" (where "color" is the color you want to add) and call rgblightstone.add(color)
+
+Group addressing mode:
+
+If you are building something with large numbers of these things, set them all to the same channel, set X and Y addresses on each, and send nested tables (Y on the outside) with colors for all of them.
+For example, given this display:
+
+X=1 Y=1     X=2 Y=1
+
+X=1 Y=2     X=2 Y=2
+
+to make it show:
+
+red     green
+blue    yellow
+
+send this:
+
+{{"red","green"},
+{"blue","yellow"}}

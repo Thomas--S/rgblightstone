@@ -9,10 +9,12 @@ function rgblightstone.add(name)
 		sounds = default.node_sound_stone_defaults(),
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("formspec", "field[channel;Channel;${channel}]")
+			meta:set_string("formspec", "size[8,4;]field[1,1;6,2;channel;Channel;${channel}]field[1,2;2,2;addrx;X Address;${addrx}]field[5,2;2,2;addry;Y Address;${addry}]button_exit[2.25,3;3,1;submit;Save]label[3,2;Leave address blank\nfor individual mode]")
 		end,
 		on_receive_fields = function(pos, formname, fields, sender)
 			if fields.channel then minetest.get_meta(pos):set_string("channel", fields.channel) end
+			if fields.addrx then minetest.get_meta(pos):set_string("addrx",fields.addrx) end
+			if fields.addry then minetest.get_meta(pos):set_string("addry",fields.addry) end
 		end,
 		light_source = name~= "off" and default.LIGHT_MAX-2 or 0,
 		digiline = {
@@ -20,9 +22,21 @@ function rgblightstone.add(name)
 			effector = {
 				action = function(pos, node, channel, msg)
 					local channel_set = minetest.get_meta(pos):get_string("channel")
-					if channel==channel_set then
-						for _,color in ipairs(rgblightstone.colors) do
-							if msg==color then minetest.swap_node(pos, {name = "rgblightstone:lightstone_"..color}) end
+					local xaddr = minetest.get_meta(pos):get_string("addrx")
+					local yaddr = minetest.get_meta(pos):get_string("addry")
+					if channel==channel_set and msg ~= nil then
+						if xaddr ~= nil and xaddr ~= "" and yaddr ~= nil and yaddr ~= "" then
+							for _,color in ipairs(rgblightstone.colors) do
+								if msg[tonumber(yaddr)] ~= nil and msg[tonumber(yaddr)][tonumber(xaddr)] ~= nil and msg[tonumber(yaddr)][tonumber(xaddr)] == color and msg[tonumber(yaddr)][tonumber(xaddr)] ~= minetest.get_node(pos).color then
+									minetest.swap_node(pos, {name = "rgblightstone:lightstone_"..color})
+								end
+							end
+						else
+							for _,color in ipairs(rgblightstone.colors) do
+								if msg == color and msg ~= minetest.get_node(pos).color then
+									minetest.swap_node(pos, {name = "rgblightstone:lightstone_"..color})
+								end
+							end
 						end
 					end
 				end

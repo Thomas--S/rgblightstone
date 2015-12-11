@@ -25,13 +25,13 @@ function rgblightstone.add(name)
 					local xaddr = minetest.get_meta(pos):get_string("addrx")
 					local yaddr = minetest.get_meta(pos):get_string("addry")
 					if channel==channel_set and msg ~= nil then
-						if xaddr ~= nil and xaddr ~= "" and yaddr ~= nil and yaddr ~= "" then
+						if xaddr ~= nil and xaddr ~= "" and yaddr ~= nil and yaddr ~= "" and type(msg) == "table" then
 							for _,color in ipairs(rgblightstone.colors) do
 								if msg[tonumber(yaddr)] ~= nil and msg[tonumber(yaddr)][tonumber(xaddr)] ~= nil and msg[tonumber(yaddr)][tonumber(xaddr)] == color and msg[tonumber(yaddr)][tonumber(xaddr)] ~= minetest.get_node(pos).color then
 									minetest.swap_node(pos, {name = "rgblightstone:lightstone_"..color})
 								end
 							end
-						else
+						elseif type(msg) == "string" then
 							for _,color in ipairs(rgblightstone.colors) do
 								if msg == color and msg ~= minetest.get_node(pos).color then
 									minetest.swap_node(pos, {name = "rgblightstone:lightstone_"..color})

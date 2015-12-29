@@ -25,7 +25,7 @@ or, if you don't have luacontrollers:
 
 Instructions (without digilines): 
 
-Grab the one you want from the creative inventory and place it. Survival mode is not yet supported without digilines.
+You'll have to use /give or /giveme. The node names follow the pattern "rgblightstone:lightstone_color", where "color" is replaced with the color (see below).
 
 
 Colors:

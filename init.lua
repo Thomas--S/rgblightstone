@@ -1,5 +1,9 @@
 rgblightstone = {}
-rgblightstone.colors = {"off","black","blue","brown","cyan","darkblue","darkcyan","darkgray","darkgreen","darkmagenta","darkred","gray","green","magenta","red","white","yellow"}
+--If neither of the following are on, only the 16 colors listed in the readme will be available
+rgblightstone.extracolors = true -- 12-bit 4096 Color Mode
+rgblightstone.insanecolors = false -- 24-bit "True Color" Mode (DOES NOT WORK - the engine does not allow this many nodes to be registered. If it ever does, however...)
+rgblightstone.colors = {}
+
 function rgblightstone.autofill(pos,player)
 	local meta = minetest.get_meta(pos)
 	if (not meta:get_string("channel")) or meta:get_string("channel")=="" then
@@ -24,9 +28,10 @@ function rgblightstone.autofill(pos,player)
 	end
 end
 
-function rgblightstone.add(name)
+function rgblightstone.add(name,color)
+	table.insert(rgblightstone.colors,name)
 	minetest.register_node("rgblightstone:lightstone_" .. name, {
-		tiles = name == "off" and {"jeija_lightstone_darkgray_off.png"} or {"rgblightstone_"..name..".png"},
+		tiles = name == "off" and {"jeija_lightstone_darkgray_off.png"} or {"rgblightstone_gray.png^[colorize:#"..color.."CC"},
 		drop = "rgblightstone:lightstone_off",
 		groups = name == "off" and {cracky=2} or {cracky=2,not_in_creative_inventory=1},
 		description="RGB Lightstone ("..name..")",
@@ -52,7 +57,7 @@ function rgblightstone.add(name)
 				if fields.addry then meta:set_string("addry",fields.addry) end
 			end
 		end,
-		light_source = name~= "off" and default.LIGHT_MAX-2 or 0,
+		light_source = name ~= "off" and default.LIGHT_MAX-2 or 0,
 		digiline = {
 			receptor = {},
 			effector = {
@@ -80,7 +85,46 @@ function rgblightstone.add(name)
 		}
 	})
 end
-for _,i in ipairs(rgblightstone.colors) do rgblightstone.add(i) end
+rgblightstone.add("off",nil)
+rgblightstone.add("red","FF5555")
+rgblightstone.add("green","55FF55")
+rgblightstone.add("blue","5555FF")
+rgblightstone.add("cyan","55FFFF")
+rgblightstone.add("magenta","FF55FF")
+rgblightstone.add("yellow","FFFF55")
+rgblightstone.add("gray","AAAAAA")
+rgblightstone.add("darkred","AA0000")
+rgblightstone.add("darkgreen","00AA00")
+rgblightstone.add("darkblue","0000AA")
+rgblightstone.add("darkcyan","00AAAA")
+rgblightstone.add("darkmagenta","AA00AA")
+rgblightstone.add("brown","AA5500")
+rgblightstone.add("darkgray","555555")
+rgblightstone.add("white","FFFFFF")
+rgblightstone.add("black","000000")
+
+if rgblightstone.extracolors and not rgblightstone.insanecolors then
+	for r=0x0,0xFF,0x11 do
+		for g=0x0,0xFF,0x11 do
+			for b=0x0,0xFF,0x11 do
+				local color = string.format("%02X%02X%02X",r,g,b)
+				rgblightstone.add(color,color)
+			end
+		end
+	end
+end
+
+if rgblightstone.insanecolors then
+	for r=0x0,0xFF,0x1 do
+		for g=0x0,0xFF,0x1 do
+			for b=0x0,0xFF,0x1 do
+				local color = string.format("%02X%02X%02X",r,g,b)
+				rgblightstone.add(color,color)
+			end
+		end
+	end
+end
+
 if minetest.get_modpath("mesecons_luacontroller") and minetest.get_modpath("digilines") then
 	minetest.register_craft({
 		output = "rgblightstone:lightstone_off",

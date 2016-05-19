@@ -1,7 +1,8 @@
 rgblightstone = {}
 --If neither of the following are on, only the 16 colors listed in the readme will be available
-rgblightstone.extracolors = true -- 12-bit 4096 Color Mode
-rgblightstone.insanecolors = false -- 24-bit "True Color" Mode (DOES NOT WORK - the engine does not allow this many nodes to be registered. If it ever does, however...)
+rgblightstone.sortaextracolors = true -- 64 Color Mode
+rgblightstone.extracolors = false -- 4096 Color Mode
+rgblightstone.insanecolors = false -- "True Color" Mode (DOES NOT WORK - the engine does not allow this many nodes to be registered. If it ever does, however...)
 rgblightstone.colors = {}
 
 function rgblightstone.autofill(pos,player)
@@ -102,6 +103,17 @@ rgblightstone.add("brown","AA5500")
 rgblightstone.add("darkgray","555555")
 rgblightstone.add("white","FFFFFF")
 rgblightstone.add("black","000000")
+
+if rgblightstone.sortaextracolors and not rgblightstone.insanecolors and not rgblightstone.extracolors then
+	for r=0x0,0xFF,0x22 do
+		for g=0x0,0xFF,0x22 do
+			for b=0x0,0xFF,0x22 do
+				local color = string.format("%02X%02X%02X",r,g,b)
+				rgblightstone.add(color,color)
+			end
+		end
+	end
+end
 
 if rgblightstone.extracolors and not rgblightstone.insanecolors then
 	for r=0x0,0xFF,0x11 do

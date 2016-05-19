@@ -35,10 +35,13 @@ Edit the settings at the top of init.lua to change what colors are available. Th
 16 color mode:
 off, black, blue, brown, cyan, darkblue, darkcyan, darkgray, darkgreen, darkmagenta, darkred, gray, green, magenta, red, white, yellow
 
-12-bit 4096 color mode:
+64 color mode:
+Same as 4096-color (below), but only even digits work (so "EEAA88" works but "55BBFF" doesn't).
+
+4096 color mode:
 Any 6-digit hex value where the two digits for each part are the same. For example, "00FF66" and "112233" work, but "5678AC" will not.
 
-24-bit "True Color" mode:
+"True Color" mode:
 While the code is present, engine limitations do not allow this many nodes to be registered. If this ever changes, any hex value (such as "237AF0" or "C0FFEE") will work.
 
 Adding more colors:

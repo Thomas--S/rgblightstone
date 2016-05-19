@@ -1,6 +1,6 @@
 rgblightstone = {}
 --If neither of the following are on, only the 16 colors listed in the readme will be available
-rgblightstone.sortaextracolors = true -- 64 Color Mode
+rgblightstone.sortaextracolors = true -- 512 Color Mode
 rgblightstone.extracolors = false -- 4096 Color Mode
 rgblightstone.insanecolors = false -- "True Color" Mode (DOES NOT WORK - the engine does not allow this many nodes to be registered. If it ever does, however...)
 rgblightstone.colors = {}

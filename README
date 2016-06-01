@@ -3,9 +3,10 @@ RGB Lightstones for Minetest
 License:
 ---Code: WTFPL
 
-Depends: mesecons_lightstone, digilines?
+Depends: mesecons_lightstone, digilines
+(neither is in depends.txt since the order doesn't matter)
 
-Instructions (with digilines):
+Instructions:
 
 * Grab one from the creative inventory, or craft one:
 	nothing		green lightstone	nothing
@@ -15,11 +16,6 @@ Instructions (with digilines):
 * Place the thing
 * Right-click and set a channel
 * Send a digilines message to it on that channel with the color you want (choices listed below)
-
-Instructions (without digilines): 
-
-You'll have to use /give or /giveme. The node names follow the pattern "rgblightstone:lightstone_color", where "color" is replaced with the color (see below).
-
 
 Colors available: Any 6-digit hex color, such as "FF0000", "#c0ffee", "123456"...
 

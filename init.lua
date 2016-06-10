@@ -124,7 +124,7 @@ minetest.register_node("rgblightstone:rgblightstone", {
 				--Remove old entity, if present
 				local objs = minetest.get_objects_inside_radius(pos,0.5)
 				for _,obj in ipairs(objs) do
-					if obj:get_luaentity().name == "rgblightstone:entity" then
+					if obj:get_luaentity() and obj:get_luaentity().name == "rgblightstone:entity" then
 						obj:remove()
 					end
 				end
@@ -148,7 +148,7 @@ minetest.register_lbm({
 	action = function(pos)
 		local objs = minetest.get_objects_inside_radius(pos,0.5)
 		for _,obj in ipairs(objs) do
-			if obj:get_luaentity().name == "rgblightstone:entity" then
+			if obj:get_luaentity() and obj:get_luaentity().name == "rgblightstone:entity" then
 				obj:remove()
 			end
 		end

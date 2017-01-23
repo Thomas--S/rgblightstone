@@ -116,8 +116,6 @@ minetest.register_node("rgblightstone:rgblightstone", {
 				
 				local paletteidx = 32*g+4*r+b
 
-				print(msg,r,g,b,paletteidx)
-
 				--Set the color
 				node.param2 = paletteidx
 				minetest.swap_node(pos,node)

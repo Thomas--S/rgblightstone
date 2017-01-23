@@ -2,6 +2,7 @@ RGB Lightstones for Minetest
 
 License:
 ---Code: WTFPL
+---Textures: "white" image by VanessaE (WTFPL), "palette" image is from here: https://commons.wikimedia.org/wiki/File:256colour.png
 
 Depends: mesecons_lightstone, digilines
 (neither is in depends.txt since the order doesn't matter)
@@ -17,7 +18,7 @@ Instructions:
 * Right-click and set a channel
 * Send a digilines message to it on that channel with the color you want (choices listed below)
 
-Colors available: Any 6-digit hex color, such as "FF0000", "#c0ffee", "123456"...
+Colors available: Any 6-digit hex color, such as "FF0000", "#c0ffee", "123456"... (will be set to the nearest color available)
 
 Group addressing mode:
 

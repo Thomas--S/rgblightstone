@@ -32,46 +32,17 @@ function rgblightstone.autofill(pos,player)
 	end
 end
 
-minetest.register_entity("rgblightstone:entity",{
-	hp_max = 1,
-	physical = false,
-	collisionbox = {0,0,0,0,0,0},
-	visual_size = {x=1.003, y=1.003},
-	visual = "cube",
-	is_visible = true
-})
-
 minetest.register_node("rgblightstone:rgblightstone", {
-	tiles = {"jeija_lightstone_darkgray_off.png^[colorize:#000000FF"},
+	tiles = {"rgblightstone_white.png"},
+	palette = "rgblightstone_palette.png",
 	groups = {cracky=2},
-	sunlight_propagates = true,
-	drawtype = "nodebox",
-	node_box = {
-		type = "fixed",
-		fixed = {{-0.45,-0.45,-0.45,0.45,0.45,0.45}}
-	},
-	paramtype = "light",
 	description = "RGB Lightstone",
+	paramtype2 = "color",
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", "size[8,5;]field[1,1;6,2;channel;Channel;${channel}]field[1,2;2,2;addrx;X Address;${addrx}]field[5,2;2,2;addry;Y Address;${addry}]button_exit[2.25,3;3,1;submit;Save]button_exit[2.25,4;3,1;autofill;Auto-Fill From Node Above]label[3,2;Leave address blank\nfor individual mode]")
 		meta:set_string("infotext","Not configured! Right-click to set up manually, or punch to auto-fill from the node above.")
 		meta:set_string("color","000000")
-
-		--Create a new entity
-		local obj = minetest.add_entity(pos,"rgblightstone:entity")
-		
-		--Set to the black
-		local tex = "jeija_lightstone_darkgray_off.png^[colorize:#000000FF"
-		obj:set_properties({textures = {tex,tex,tex,tex,tex,tex}})
-	end,
-	on_destruct = function(pos)
-		local objs = minetest.get_objects_inside_radius(pos,0.5)
-		for _,obj in ipairs(objs) do
-			if obj:get_luaentity().name == "rgblightstone:entity" then
-				obj:remove()
-			end
-		end
 	end,
 	on_punch = function(pos, node, player, pointed_thing)
 		rgblightstone.autofill(pos,player)
@@ -133,30 +104,32 @@ minetest.register_node("rgblightstone:rgblightstone", {
 				end
 				--Should be a valid hex color by this point
 				
-				--Remove old entity, if present
-				local objs = minetest.get_objects_inside_radius(pos,0.5)
-				for _,obj in ipairs(objs) do
-					if obj:get_luaentity() and obj:get_luaentity().name == "rgblightstone:entity" then
-						obj:remove()
-					end
-				end
+				--Split into three colors
+				local r = tonumber(string.sub(msg,1,2),16)
+				local g = tonumber(string.sub(msg,3,4),16)
+				local b = tonumber(string.sub(msg,5,6),16)
 
-				--Create a new entity
-				local obj = minetest.add_entity(pos,"rgblightstone:entity")
+				--Round to nearest available values and convert to a pixel count in the palette
+				r = math.floor(r/32)
+				g = math.floor(g/32)
+				b = math.floor(b/64) --Blue has one fewer bit
 				
-				--Set to the correct color
-				meta:set_string("color",msg)
-				local tex = "jeija_lightstone_darkgray_off.png^[colorize:#"..msg.."FF"
-				obj:set_properties({textures = {tex,tex,tex,tex,tex,tex}})
+				local paletteidx = 32*g+4*r+b
+
+				print(msg,r,g,b,paletteidx)
+
+				--Set the color
+				node.param2 = paletteidx
+				minetest.swap_node(pos,node)
 			end
 		}
 	}
 })
 
 minetest.register_lbm({
-	name = "rgblightstone:reset_entities",
+	name = "rgblightstone:remove_entities",
 	nodenames = {"rgblightstone:rgblightstone"},
-	run_at_every_load = true,
+	label = "Remove old rgblightstone entities",
 	action = function(pos)
 		local objs = minetest.get_objects_inside_radius(pos,0.5)
 		for _,obj in ipairs(objs) do
@@ -164,14 +137,6 @@ minetest.register_lbm({
 				obj:remove()
 			end
 		end
-		local meta = minetest.get_meta(pos)
-		local color = meta:get_string("color")
-		if color == "" then
-			return
-		end
-		local tex = "jeija_lightstone_darkgray_off.png^[colorize:#"..color.."FF"
-		local obj = minetest.add_entity(pos,"rgblightstone:entity")
-		obj:set_properties({textures = {tex,tex,tex,tex,tex,tex}})
 	end
 })
 

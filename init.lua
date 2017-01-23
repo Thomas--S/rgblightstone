@@ -126,20 +126,6 @@ minetest.register_node("rgblightstone:rgblightstone", {
 	}
 })
 
-minetest.register_lbm({
-	name = "rgblightstone:remove_entities",
-	nodenames = {"rgblightstone:rgblightstone"},
-	label = "Remove old rgblightstone entities",
-	action = function(pos)
-		local objs = minetest.get_objects_inside_radius(pos,0.5)
-		for _,obj in ipairs(objs) do
-			if obj:get_luaentity() and obj:get_luaentity().name == "rgblightstone:entity" then
-				obj:remove()
-			end
-		end
-	end
-})
-
 
 minetest.register_craft({
 	output = "rgblightstone:lightstone",
